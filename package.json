@@ -5,10 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon app.js --ignore sessions" ,
+    "server": "nodemon app.js --ignore sessions",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
-
   },
   "keywords": [],
   "author": "",
