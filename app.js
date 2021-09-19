@@ -4,8 +4,9 @@ const { urlencoded } = require('express');
 const session = require('express-session')
 const FileStore = require('session-file-store')(session)
 const checkAuth = require('./middlewares/checkAuth');
+const path = require('path')
 
-PORT = 3005;
+PORT = process.env.PORT || 3005;
 
 const app = express()
 
@@ -57,6 +58,14 @@ app.set('cookieName', 'ArtyCookie')
 app.use(express.urlencoded())
 app.use(express.json())
 
+if(process.env.NODE === 'production') {
+app.use(express.static(path.join(__dirname, 'frontend/build')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+})
+}
+
 app.use(cors({
   origin: true,
   credentials: true,
@@ -73,6 +82,7 @@ app.use(session({
     maxAge: 1e3 * 86400,
   },
 })),
+
 
 app.post('/signin', (req, res) => {
   const { password, login } = req.body
